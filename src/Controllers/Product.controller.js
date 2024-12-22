@@ -247,6 +247,28 @@ const Get_product = Async_handler(async (req, res) => {
 
 })
 
+// Get All Items in Cart
+const Get_cart_items = Async_handler(async (req, res) => {
+    try {
+        // Fetch the user's cart using their ID
+        const user = await User.findById(req.user._id).select("cart -_id");
+
+        // Check if the user exists and has a cart
+        if (!user || !user.cart || user.cart.length === 0) {
+            return res.status(404).json(
+                new API_response(404, [], "No items in the cart")
+            );
+        }
+
+        return res.status(200).json(
+            new API_response(200, user.cart, "Cart items fetched successfully")
+        );
+    } catch (error) {
+        return res.status(500).json(
+            new API_response(500, [], "Failed to fetch cart items")
+        );
+    }
+});
 
 
-export { Add_product, Get_product, Add_cart,Remove_cart_item,Reduce_cart_quantity }
+export { Add_product, Get_product, Add_cart,Remove_cart_item,Reduce_cart_quantity, Get_cart_items }
