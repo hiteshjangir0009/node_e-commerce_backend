@@ -18,9 +18,9 @@ router.route('/add').post( upload.fields([
     }, 
 ]),VerifyJWT,Add_product)
 router.route('/get').get(VerifyJWT,Get_product)
-router.route('/addCart').post(VerifyJWT,Add_cart)
-router.route('/removeCart').post(VerifyJWT,Remove_cart_item)
-router.route('/reduceqt').post(VerifyJWT,Reduce_cart_quantity)
+router.route('/addCart').post(upload.none(),VerifyJWT,Add_cart)
+router.route('/removeCart').post(upload.none(),VerifyJWT,Remove_cart_item)
+router.route('/reduceqt').post(upload.none(),VerifyJWT,Reduce_cart_quantity)
 
 
 
