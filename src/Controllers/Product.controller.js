@@ -4,6 +4,7 @@ import { User } from "../Models/User.model.js";
 import { API_response } from "../Utils/API_response.js";
 import { Async_handler } from "../Utils/Async_handler.js";
 import jwt from 'jsonwebtoken'
+import { uploadOnCloudinary } from "../Utils/Cloudinary.js";
 
 
 
@@ -29,11 +30,26 @@ const Add_product = Async_handler(async (req, res) => {
         )
     }
 
+    const product_img_path = req.files?.product_img[0]?.path;
+
+    console.log("img_path ==>>",product_img_path);
+    
+    const avatar = await uploadOnCloudinary(product_img_path)
+
+    if (!avatar) {
+        return res.status(400).json(
+            new API_response(400, [], "img not found")
+        )
+    }
+
+    console.log("img ==>>",avatar.url);
+    
     // create db
     const createDB = await Product.create({
         product_name,
         description,
         price,
+        product_img:avatar.url
     })
 
     // check DB

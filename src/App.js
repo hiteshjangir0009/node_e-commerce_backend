@@ -15,14 +15,14 @@ app.use(express.urlencoded({ limit: '20kb' }))
 app.use(express.static('public'))
 app.use(cookieParser())
 
-app.use(upload.none())
+
 // Router import 
 import user from '../src/Routes/User.routes.js'
 import product from '../src/Routes/Product.routes.js'
 
 
 // routes decleration
-app.use("/api/v1/user", user)
+app.use("/api/v1/user", upload.none(),user)
 app.use("/api/v1/product", product)
 
 
