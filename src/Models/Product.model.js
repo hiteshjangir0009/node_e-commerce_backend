@@ -6,6 +6,10 @@ const Product_schema = mongoose.Schema({
         type: String,
         required: true
     },
+    catagory: {
+        type: String,
+        required: true
+    },
     product_img: {
         type: String,
     },

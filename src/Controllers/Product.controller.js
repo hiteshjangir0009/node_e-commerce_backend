@@ -11,10 +11,10 @@ import { uploadOnCloudinary } from "../Utils/Cloudinary.js";
 // add product 
 const Add_product = Async_handler(async (req, res) => {
 
-    const { product_name, description, price,img } = req.body
+    const { product_name,catagory, description, price,img } = req.body
 
     // chack empty
-    if ([product_name, description, price,img].some((element) => element?.trim() === "")) {
+    if ([product_name, description, price,img,catagory].some((element) => element?.trim() === "")) {
         return res.status(400).json(
             new API_response(400, [], "all fields are required")
         )
@@ -48,6 +48,7 @@ const Add_product = Async_handler(async (req, res) => {
     const createDB = await Product.create({
         product_name,
         description,
+        catagory,
         price,
         product_img:avatar.url
     })
