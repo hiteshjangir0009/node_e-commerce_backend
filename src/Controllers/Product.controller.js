@@ -224,29 +224,29 @@ const Reduce_cart_quantity = Async_handler(async (req, res) => {
 });
 
 
-// get product
+// Get product with category filter
 const Get_product = Async_handler(async (req, res) => {
+    const { catagory } = req.query; // Make sure 'catagory' matches the database field name
 
+    // Construct query object
+    const query = catagory ? { catagory } : {};
 
-    const data = await Product.find()
+    // Fetch products based on query
+    const data = await Product.find(query);
 
-    if (data.length == 0) {
-        return res.status(400).json(
-            new API_response(400, [], "data is not available")
-        )
+    // Check if any products were found
+    if (!data || data.length === 0) {
+        return res.status(404).json(
+            new API_response(404, [], "No products found")
+        );
     }
 
     return res.status(200).json(
-        new API_response(
-            201,
+        new API_response(200, data, "Products fetched successfully")
+    );
+});
 
-            data
-            ,
-            "data fetch successfully"
-        )
-    )
 
-})
 
 // Get All Items in Cart
 const Get_cart_items = Async_handler(async (req, res) => {
