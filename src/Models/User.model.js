@@ -21,6 +21,9 @@ const User_schema = mongoose.Schema({
     },
     cart: [
         {
+            product_img: {
+                type: String,
+            },
             product_name: {
                 type: String,
             },
