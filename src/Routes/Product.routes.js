@@ -16,7 +16,7 @@ router.route('/add').post( upload.fields([
         name: "product_img",
         maxCount: 1
     }, 
-]),VerifyJWT,Add_product)
+]),Add_product)
 
 router.route('/get').get(Get_product)
 router.route('/cart').get(upload.none(),VerifyJWT,Get_cart_items)

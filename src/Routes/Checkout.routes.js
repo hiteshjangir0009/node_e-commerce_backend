@@ -8,7 +8,7 @@ const router = Router();
 router.route("/checkout").post(VerifyJWT, CreateCheckout);
 
 // Get checkout details
-router.route("/checkout").get(VerifyJWT, GetCheckout);
+router.route("/getcheckout").get(VerifyJWT, GetCheckout);
 
 // Update checkout status
 router.route("/checkout/status").patch(VerifyJWT, UpdateCheckoutStatus);
