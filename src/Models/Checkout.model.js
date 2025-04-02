@@ -6,22 +6,12 @@ const CheckoutSchema = new mongoose.Schema({
         ref: "User",
         required: true
     },
-    cart: [
-        {
-            product_img: {
-                type: String,
-            },
-            product_name: {
-                type: String,
-            },
-            price: {
-                type: Number,
-            },
-            quantity: {
-                type: Number,
-            },
-        }
-    ],
+    cart: [{
+        product_name: String,
+        price: Number,
+        quantity: Number,
+        _id: mongoose.Schema.Types.ObjectId
+    }],
     totalAmount: {
         type: Number,
         required: true

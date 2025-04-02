@@ -29,7 +29,7 @@ import checkout from '../src/Routes/Checkout.routes.js'
 // routes decleration
 app.use("/api/v1/user", upload.none(),user)
 app.use("/api/v1/product", product)
-app.use("/api/v1/checkout", checkout)
+app.use("/api/v1/checkout",  upload.none(),checkout)
 
 
 export { app }

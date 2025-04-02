@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { VerifyJWT } from "../Middlewares/Auth.middleware.js";
-import { CreateCheckout, GetCheckout, UpdateCheckoutStatus } from "../Controllers/Checkout.controller.js";
+import { CreateCheckout, GetAllCheckouts, GetCheckout, UpdateCheckoutStatus } from "../Controllers/Checkout.controller.js";
 
 const router = Router();
 
@@ -11,6 +11,9 @@ router.route("/checkout").post(VerifyJWT, CreateCheckout);
 router.route("/getcheckout").get(VerifyJWT, GetCheckout);
 
 // Update checkout status
-router.route("/checkout/status").patch(VerifyJWT, UpdateCheckoutStatus);
+router.route("/status").patch(VerifyJWT, UpdateCheckoutStatus);
+
+router.route("/getcheckout").patch( GetAllCheckouts);
+
 
 export default router;
