@@ -1,5 +1,4 @@
-import mongoose from "mongoose"
-
+import mongoose from "mongoose";
 
 const Product_schema = mongoose.Schema({
     product_name: {
@@ -23,8 +22,27 @@ const Product_schema = mongoose.Schema({
     quantity: {
         type: String,
     },
-    
-})
+    ratings: {
+        type: [
+            {
+                user: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "User",
+                    required: true
+                },
+                rating: {
+                    type: Number,
+                    required: true,
+                    min: 1,
+                    max: 5
+                },
+                comment: {
+                    type: String
+                }
+            }
+        ],
+        default: []
+    }
+});
 
-
-export const Product = mongoose.model('Product', Product_schema)
+export const Product = mongoose.model('Product', Product_schema);

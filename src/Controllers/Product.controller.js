@@ -272,4 +272,48 @@ const Get_cart_items = Async_handler(async (req, res) => {
 });
 
 
-export { Add_product, Get_product, Add_cart,Remove_cart_item,Reduce_cart_quantity, Get_cart_items }
+const Add_rating = Async_handler(async (req, res) => {
+    const { productId, rating, comment } = req.body;
+
+    if (!productId || !rating) {
+        return res.status(400).json(
+            new API_response(400, [], "Product ID and rating are required")
+        );
+    }
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+        return res.status(404).json(
+            new API_response(404, [], "Product not found")
+        );
+    }
+
+    // Check if user already rated
+    const alreadyRated = product.ratings.find(r => r.user.toString() === req.user._id.toString());
+    if (alreadyRated) {
+        return res.status(400).json(
+            new API_response(400, [], "You have already rated this product")
+        );
+    }
+
+    // Add rating
+    product.ratings.push({
+        user: req.user._id,
+        rating,
+        comment
+    });
+
+    // Recalculate average rating
+    const totalRating = product.ratings.reduce((acc, curr) => acc + curr.rating, 0);
+    product.averageRating = totalRating / product.ratings.length;
+
+    await product.save();
+
+    return res.status(200).json(
+        new API_response(200, product, "Rating added successfully")
+    );
+});
+
+
+export { Add_product, Get_product, Add_cart,Remove_cart_item,Reduce_cart_quantity, Get_cart_items, Add_rating }
