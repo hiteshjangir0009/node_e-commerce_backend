@@ -21,6 +21,9 @@ const CheckoutSchema = new mongoose.Schema({
         enum: ["Pending", "Completed", "Failed"],
         default: "Pending"
     },
+    paymentId: {
+        type: String,
+    },
     shippingAddress: {
         address: {
             type: String,

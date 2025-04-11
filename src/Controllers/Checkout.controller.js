@@ -6,7 +6,7 @@ import { User } from "../Models/User.model.js";
 
 // Create Checkout
 const CreateCheckout = Async_handler(async (req, res) => {
-    let { cart, totalAmount, paymentStatus, shippingAddress } = req.body;
+    let { cart, totalAmount, paymentStatus, shippingAddress,paymentId } = req.body;
 
     console.log("Raw cart received:", cart);
     console.log("Type of cart:", typeof cart);
@@ -16,7 +16,7 @@ const CreateCheckout = Async_handler(async (req, res) => {
         cart = [cart];  // Wrap object in an array if it's not already an array
     }
 
-    if (!cart.length || !totalAmount || !shippingAddress) {
+    if (!cart.length || !totalAmount || !shippingAddress || !paymentId) {
         return res.status(400).json(new API_response(400, [], "All fields are required"));
     }
 
@@ -25,6 +25,7 @@ const CreateCheckout = Async_handler(async (req, res) => {
         cart,
         totalAmount,
         paymentStatus: paymentStatus || "Pending",
+        paymentId,
         shippingAddress
     });
 
