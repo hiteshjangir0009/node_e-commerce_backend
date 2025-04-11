@@ -340,5 +340,30 @@ const Delete_product = Async_handler(async (req, res) => {
     );
 });
 
+const Clear_cart = Async_handler(async (req, res) => {
+    try {
+        // Clear the user's cart
+        const updatedUser = await User.findByIdAndUpdate(
+            req.user._id,
+            { $set: { cart: [] } }, // Set cart to an empty array
+            { new: true }
+        ).select("-password -refresh_token");
 
-export { Add_product, Get_product, Add_cart,Remove_cart_item,Reduce_cart_quantity, Get_cart_items, Add_rating ,Delete_product}
+        if (!updatedUser) {
+            return res.status(400).json(
+                new API_response(400, [], "Failed to clear cart")
+            );
+        }
+
+        return res.status(200).json(
+            new API_response(200, updatedUser.cart, "Cart cleared successfully")
+        );
+    } catch (error) {
+        return res.status(500).json(
+            new API_response(500, [], "Internal server error")
+        );
+    }
+});
+
+
+export { Add_product, Get_product, Add_cart,Remove_cart_item,Reduce_cart_quantity, Get_cart_items, Add_rating ,Delete_product ,Clear_cart}
