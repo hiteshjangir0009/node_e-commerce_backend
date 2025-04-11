@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { VerifyJWT } from "../Middlewares/Auth.middleware.js";
 import {  User_login, User_register } from "../Controllers/User.controller.js";
-import { Add_cart, Add_product, Add_rating, Get_cart_items, Get_product, Reduce_cart_quantity, Remove_cart_item } from "../Controllers/Product.controller.js";
+import { Add_cart, Add_product, Add_rating, Delete_product, Get_cart_items, Get_product, Reduce_cart_quantity, Remove_cart_item } from "../Controllers/Product.controller.js";
 import { upload } from "../Middlewares/Multer.middleware.js";
 // import { User_login, User_logout, User_refressToken, User_register } from "../Controllers/User.controller.js";
 
@@ -17,6 +17,7 @@ router.route('/add').post( upload.fields([
         maxCount: 1
     }, 
 ]),Add_product)
+router.route('/delete').delete(upload.none(),VerifyJWT,Delete_product)
 
 router.route('/get').get(Get_product)
 router.route('/cart').get(upload.none(),VerifyJWT,Get_cart_items)

@@ -315,5 +315,30 @@ const Add_rating = Async_handler(async (req, res) => {
     );
 });
 
+// Delete a product by ID
+const Delete_product = Async_handler(async (req, res) => {
+    const { productId } = req.body;
 
-export { Add_product, Get_product, Add_cart,Remove_cart_item,Reduce_cart_quantity, Get_cart_items, Add_rating }
+    // Check if productId is provided
+    if (!productId) {
+        return res.status(400).json(
+            new API_response(400, [], "Product ID is required")
+        );
+    }
+
+    // Try to find and delete the product
+    const deletedProduct = await Product.findByIdAndDelete(productId);
+
+    if (!deletedProduct) {
+        return res.status(404).json(
+            new API_response(404, [], "Product not found or already deleted")
+        );
+    }
+
+    return res.status(200).json(
+        new API_response(200, deletedProduct, "Product deleted successfully")
+    );
+});
+
+
+export { Add_product, Get_product, Add_cart,Remove_cart_item,Reduce_cart_quantity, Get_cart_items, Add_rating ,Delete_product}

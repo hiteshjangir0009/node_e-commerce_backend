@@ -29,4 +29,25 @@ const Get_All_Farmers = Async_handler(async (req, res) => {
     return res.status(200).json(new API_response(200, farmers, "All farmers fetched successfully"));
 });
 
-export { Add_Farmer, Get_All_Farmers };
+// Delete Farmer by ID
+const Delete_Farmer = Async_handler(async (req, res) => {
+    const { id } = req.body;
+
+    // Check if ID is provided
+    if (!id) {
+        return res.status(400).json(new API_response(400, [], "Farmer ID is required"));
+    }
+
+    // Attempt to delete the farmer
+    const deletedFarmer = await Farmer.findByIdAndDelete(id);
+
+    // If farmer not found
+    if (!deletedFarmer) {
+        return res.status(404).json(new API_response(404, [], "Farmer not found"));
+    }
+
+    return res.status(200).json(new API_response(200, deletedFarmer, "Farmer deleted successfully"));
+});
+
+
+export { Add_Farmer, Get_All_Farmers,Delete_Farmer };
